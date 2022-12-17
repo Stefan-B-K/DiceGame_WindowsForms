@@ -37,13 +37,13 @@ namespace VSP_0463_imd_MyProject
         public static Color BackColor(Color color) {
             return color == Color.Black ?
                SystemColors.Control :
-               Utils.ChangeColorBrightness(color, (float)0.9);
+               ChangeColorBrightness(color, (float)0.9);
         }
         public static Color ForeColor(Color color)
         {
             return color == Color.Black ?
            SystemColors.ControlText :
-           Utils.ChangeColorBrightness(color, (float)-0.3);
+           ChangeColorBrightness(color, (float)-0.3);
         }
 
         public static Color LightRed = Color.FromArgb(255, 203, 202);

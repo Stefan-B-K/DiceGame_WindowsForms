@@ -22,6 +22,7 @@ namespace VSP_0463_imd_MyProject
         private Label labelInstruction2 = new();
         private Game _gameType = Game.First;
         private int maxGoalValue = GameScore.MaxPoints1Dice;
+        private int minGoalValue = GameScore.MinPoints;
 
         private int DiceCount
         {
@@ -31,7 +32,7 @@ namespace VSP_0463_imd_MyProject
                 _diceCount = value;
                 SetDiceLocation(value);
                 SetDiceFace(ColorTheme, 6, 6);
-                setGoalMaxValue();
+                setGoalValueLimits();
                 checkGoalValue(textBoxGoal);
             }
         }
@@ -82,8 +83,8 @@ namespace VSP_0463_imd_MyProject
                 {
                     Task.Delay(1000).Wait();
                     Utils.SetEnabled(buttonRoll, !value);
-                    SetRoundScore(Player, GameScore.Round, ValueDice1 + (DiceCount == 2 ? ValueDice2 : 0));
-                    if (Playing) Player = Player == PlayerTurn.User ? PlayerTurn.Computer : PlayerTurn.User;
+                    SetRoundScore(Player, GameScore.Turn, ValueDice1 + (DiceCount == 2 ? ValueDice2 : 0));
+                    Player = Player == PlayerTurn.User ? PlayerTurn.Computer : PlayerTurn.User;
                 } else
                 {
                     Utils.SetEnabled(buttonRoll, !value);
@@ -108,9 +109,9 @@ namespace VSP_0463_imd_MyProject
             {
                 _gameType = value;
                 textBoxGoal.Text = value == Game.First ? "25" : "10";
-                labelGoalUnit.Text = value == Game.First ? "точки" : "рунда";
+                labelGoalUnit.Text = value == Game.First ? "точки" : "рунд" + (textBoxGoal.Text == "1" ? "" : "а");
                 ChangeInstructionLabel();
-                setGoalMaxValue();
+                setGoalValueLimits();
                 checkGoalValue(textBoxGoal);
             }
         }
@@ -230,16 +231,17 @@ namespace VSP_0463_imd_MyProject
 
         //  ==================  config UI ==================
 
-        private void setGoalMaxValue()
+        private void setGoalValueLimits()
         {
             maxGoalValue = GameType == Game.Max ?
               GameScore.MaxRounds :
               (DiceCount == 1 ? GameScore.MaxPoints1Dice : GameScore.MaxPoints2Dice);
+            minGoalValue = GameType == Game.Max ? GameScore.MinRounds : GameScore.MinPoints;
         }
         private void ConfigInstructionLabels()
         {
             labelInstruction1.Text = "Игра 'Кой първи':";
-            labelInstruction2.Text = "Печели този, който първи събере точките.";
+            labelInstruction2.Text = $"Печели този, който първи събере { textBoxGoal.Text } точки.";
             labelInstruction1.AutoSize = false;
             labelInstruction2.AutoSize = false;
             labelInstruction1.Size = new(120, 32);
@@ -260,8 +262,8 @@ namespace VSP_0463_imd_MyProject
                     "Игра 'Кой повече':";
 
                 labelInstruction2.Text = GameType == Game.First ? 
-                    "Печели този, който първи събере точките." :
-                    "Печели този, който има повече точки след последния рунд.";
+                    $"Печели този, който първи събере {textBoxGoal.Text} точки." :
+                    $"Печели този, който има повече точки след {textBoxGoal.Text} рунд{(textBoxGoal.Text == "1" ? "" : "а")}.";
         }
 
         private void configPlaying(bool value)
@@ -280,10 +282,17 @@ namespace VSP_0463_imd_MyProject
 
             Player = new Random().NextDouble() > 0.5 ? PlayerTurn.User : PlayerTurn.Computer;
 
+            Color backColorInstructions = Playing ? SystemColors.Window : Utils.BackColor(ColorTheme);
             Utils.SetLocation(labelInstruction1, new Point(170, Playing ? 324 : 390));
             Utils.SetLocation(labelInstruction2, new Point(286, Playing ? 324 : 390));
-            Utils.SetBackColor(labelInstruction1, Playing ? SystemColors.Window : SystemColors.Control);
-            Utils.SetBackColor(labelInstruction2, Playing ? SystemColors.Window : SystemColors.Control);
+            Utils.SetBackColor(labelInstruction1, backColorInstructions);
+            Utils.SetBackColor(labelInstruction2, backColorInstructions);
+
+            string endGameMessage;
+            if (GameType == Game.Max)
+            {
+               
+            }
         }
 
         private void SetDiceFace(Color color, int value1, int value2)
@@ -346,7 +355,7 @@ namespace VSP_0463_imd_MyProject
                 tb.Text = "";
                 tb.BackColor = Utils.LightRed;
                 tb.Tag = false;
-                labelGoalError.Text = $"От 0 до { maxGoalValue }";
+                labelGoalError.Text = $"От 0 { minGoalValue } до { maxGoalValue }";
                 labelGoalError.Visible= true;
             }
             else
@@ -389,11 +398,12 @@ namespace VSP_0463_imd_MyProject
 
             if (tb.Text.Length > 0)
             {
-                if (Int16.Parse(tb.Text.ToString()) > maxGoalValue)
+                if (Int16.Parse(tb.Text.ToString()) < minGoalValue || 
+                    Int16.Parse(tb.Text.ToString()) > maxGoalValue)
                 {
                     tb.Tag = false;
                     tb.BackColor = Utils.LightRed;
-                    labelGoalError.Text = $"От 0 до {maxGoalValue}";
+                    labelGoalError.Text = $"От { minGoalValue } до { maxGoalValue }";
                     labelGoalError.Visible = true;
                 }
                 else
@@ -407,7 +417,7 @@ namespace VSP_0463_imd_MyProject
             {
                 tb.Tag = false;
                 tb.BackColor = Utils.LightRed;
-                labelGoalError.Text = $"От 0 до { maxGoalValue }";
+                labelGoalError.Text = $"От { minGoalValue } до { maxGoalValue }";
                 labelGoalError.Visible = true;
             }
             ValidateOK();
@@ -423,7 +433,7 @@ namespace VSP_0463_imd_MyProject
                 tb.Text = "";
                 tb.BackColor = Utils.LightRed;
                 tb.Tag = false;
-                labelGoalError.Text = $"От 0 до { maxGoalValue }";
+                labelGoalError.Text = $"От { minGoalValue } до { maxGoalValue }";
                 labelGoalError.Visible = true;
             }
             else
@@ -433,6 +443,8 @@ namespace VSP_0463_imd_MyProject
                 labelGoalError.Visible = false;
             }
             ValidateOK();
+            ChangeInstructionLabel();
+            if (GameType == Game.Max) labelGoalUnit.Text = "рунд" + (textBoxGoal.Text == "1" ? "" : "а");
         }
 
         private void ValidateOK()
@@ -477,15 +489,16 @@ namespace VSP_0463_imd_MyProject
                 Rolling = false;
                 labelUser.BackColor = labelComp.BackColor = splitContainerScore.Panel1.BackColor = 
                     splitContainerScore.Panel2.BackColor = Utils.BackColor(ColorTheme);
-                GameScore.Round++;
+                GameScore.Turn++;
             }
         }
 
-        private void SetRoundScore(PlayerTurn player, int round, int score)
+        private void SetRoundScore(PlayerTurn player, int turn, int score)
         {
             GameScore.AddScore(player, score);
 
-            int scoreRow = round == 1 ? 1 : (round % 2 == 0 ? round / 2 : (round + 1) / 2);
+            int scoreRow = turn == 1 ? 1 : (turn % 2 == 0 ? turn / 2 : (turn + 1) / 2);
+            GameScore.Round = scoreRow;
 
             Label labelScore = new()
             {
@@ -497,17 +510,17 @@ namespace VSP_0463_imd_MyProject
             };
             labelScore.Font = new Font(labelScore.Font.FontFamily, 12);
 
-            if (GameType == Game.Max && round % 2 != 0)
+            if (GameType == Game.Max && turn % 2 != 0)
             {
                 Label labelRound = new()
                 {
                     Text = scoreRow.ToString(),
                     AutoSize = false,
                     Size = new(30, 18),
-                    Location = new Point(5, 10 + 20 * (scoreRow - 1)),
+                    Location = new Point(0, 13 + 20 * (scoreRow - 1)),
                     TextAlign = ContentAlignment.MiddleLeft
                 };
-                labelRound.Font = new Font(labelRound.Font.FontFamily, 10);
+                labelRound.Font = new Font(labelRound.Font.FontFamily, 8);
                 labelRound.Font = new Font(labelRound.Font, FontStyle.Italic);
 
                 Utils.AddControl(splitContainerScore.Panel1, labelRound);
@@ -524,7 +537,7 @@ namespace VSP_0463_imd_MyProject
                 Utils.SetText(labelTotalComp, GameScore.TotalScore(player).ToString());
             }
 
-            if (GameType == Game.Max && GameScore.Round == int.Parse(textBoxGoal.Text))
+            if (GameType == Game.Max && GameScore.Round == int.Parse(textBoxGoal.Text) && turn % 2 == 0)
             {
                 Playing = false;
             }
@@ -537,9 +550,5 @@ namespace VSP_0463_imd_MyProject
             }
         }
 
-        
     }
-
-
-
 }

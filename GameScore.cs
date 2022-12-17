@@ -10,8 +10,11 @@ namespace VSP_0463_imd_MyProject
     {
         public const int MaxPoints1Dice = 25;
         public const int MaxPoints2Dice = 50;
+        public const int MinPoints = 10;
         public const int MaxRounds = 10;
+        public const int MinRounds = 1;
 
+        public static int Turn = 1;
         public static int Round = 1;
         private static List<int> ScoreUser = new() { };
         private static List<int> ScoreComp = new() { };
@@ -34,6 +37,7 @@ namespace VSP_0463_imd_MyProject
             ScoreUser.Clear();
             ScoreComp.Clear();
             Round = 1;
+            Turn = 1;
         }
     }
 }
