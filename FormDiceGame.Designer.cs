@@ -88,7 +88,7 @@
             this.buttonNewGame.Name = "buttonNewGame";
             this.buttonNewGame.Size = new System.Drawing.Size(130, 40);
             this.buttonNewGame.TabIndex = 0;
-            this.buttonNewGame.Text = "Нова игра";
+            this.buttonNewGame.Text = "New game";
             this.buttonNewGame.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.buttonNewGame.UseVisualStyleBackColor = true;
             this.buttonNewGame.Click += new System.EventHandler(this.buttonNewGame_Click);
@@ -103,8 +103,7 @@
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(130, 40);
             this.buttonExit.TabIndex = 1;
-            this.buttonExit.Text = "Изход    ";
-            this.buttonExit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonExit.Text = "      Quit";
             this.buttonExit.UseVisualStyleBackColor = true;
             this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
@@ -112,10 +111,10 @@
             // 
             this.comboBoxColorTheme.FormattingEnabled = true;
             this.comboBoxColorTheme.Items.AddRange(new object[] {
-            "Стандартен",
-            "Син",
-            "Зелен",
-            "Червен"});
+            "Standard",
+            "Blue",
+            "Green",
+            "Red"});
             this.comboBoxColorTheme.Location = new System.Drawing.Point(12, 286);
             this.comboBoxColorTheme.Name = "comboBoxColorTheme";
             this.comboBoxColorTheme.Size = new System.Drawing.Size(121, 23);
@@ -127,25 +126,25 @@
             this.labelColorTheme.AutoSize = true;
             this.labelColorTheme.Location = new System.Drawing.Point(12, 268);
             this.labelColorTheme.Name = "labelColorTheme";
-            this.labelColorTheme.Size = new System.Drawing.Size(88, 15);
+            this.labelColorTheme.Size = new System.Drawing.Size(73, 15);
             this.labelColorTheme.TabIndex = 3;
-            this.labelColorTheme.Text = "Цветова схема";
+            this.labelColorTheme.Text = "Color theme";
             // 
             // labelGameType
             // 
             this.labelGameType.AutoSize = true;
             this.labelGameType.Location = new System.Drawing.Point(12, 328);
             this.labelGameType.Name = "labelGameType";
-            this.labelGameType.Size = new System.Drawing.Size(55, 15);
+            this.labelGameType.Size = new System.Drawing.Size(64, 15);
             this.labelGameType.TabIndex = 5;
-            this.labelGameType.Text = "Вид игра";
+            this.labelGameType.Text = "Game type";
             // 
             // comboBoxGameType
             // 
             this.comboBoxGameType.FormattingEnabled = true;
             this.comboBoxGameType.Items.AddRange(new object[] {
-            "Който първи",
-            "Който повече"});
+            "First",
+            "More points"});
             this.comboBoxGameType.Location = new System.Drawing.Point(12, 346);
             this.comboBoxGameType.Name = "comboBoxGameType";
             this.comboBoxGameType.Size = new System.Drawing.Size(121, 23);
@@ -161,7 +160,7 @@
             this.groupBoxOponent.Size = new System.Drawing.Size(130, 83);
             this.groupBoxOponent.TabIndex = 6;
             this.groupBoxOponent.TabStop = false;
-            this.groupBoxOponent.Text = "Опонент";
+            this.groupBoxOponent.Text = "Opponent";
             // 
             // radioButtonPvE
             // 
@@ -169,10 +168,10 @@
             this.radioButtonPvE.Checked = true;
             this.radioButtonPvE.Location = new System.Drawing.Point(18, 50);
             this.radioButtonPvE.Name = "radioButtonPvE";
-            this.radioButtonPvE.Size = new System.Drawing.Size(97, 19);
+            this.radioButtonPvE.Size = new System.Drawing.Size(79, 19);
             this.radioButtonPvE.TabIndex = 1;
             this.radioButtonPvE.TabStop = true;
-            this.radioButtonPvE.Text = "Компюътъра";
+            this.radioButtonPvE.Text = "Computer";
             this.radioButtonPvE.UseVisualStyleBackColor = true;
             // 
             // radioButtonPvP
@@ -182,9 +181,9 @@
             this.radioButtonPvP.Enabled = false;
             this.radioButtonPvP.Location = new System.Drawing.Point(18, 24);
             this.radioButtonPvP.Name = "radioButtonPvP";
-            this.radioButtonPvP.Size = new System.Drawing.Size(86, 19);
+            this.radioButtonPvP.Size = new System.Drawing.Size(57, 19);
             this.radioButtonPvP.TabIndex = 0;
-            this.radioButtonPvP.Text = "Друг играч";
+            this.radioButtonPvP.Text = "Player";
             this.radioButtonPvP.UseVisualStyleBackColor = false;
             // 
             // labelGoal
@@ -193,9 +192,9 @@
             this.labelGoal.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelGoal.Location = new System.Drawing.Point(12, 395);
             this.labelGoal.Name = "labelGoal";
-            this.labelGoal.Size = new System.Drawing.Size(36, 19);
+            this.labelGoal.Size = new System.Drawing.Size(40, 19);
             this.labelGoal.TabIndex = 7;
-            this.labelGoal.Text = "Цел:";
+            this.labelGoal.Text = "Goal:";
             // 
             // textBoxGoal
             // 
@@ -216,18 +215,18 @@
             this.labelGoalUnit.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.labelGoalUnit.Location = new System.Drawing.Point(112, 395);
             this.labelGoalUnit.Name = "labelGoalUnit";
-            this.labelGoalUnit.Size = new System.Drawing.Size(46, 19);
+            this.labelGoalUnit.Size = new System.Drawing.Size(47, 19);
             this.labelGoalUnit.TabIndex = 9;
-            this.labelGoalUnit.Text = "точки";
+            this.labelGoalUnit.Text = "points";
             // 
             // checkBoxSecondDie
             // 
             this.checkBoxSecondDie.AutoSize = true;
             this.checkBoxSecondDie.Location = new System.Drawing.Point(30, 230);
             this.checkBoxSecondDie.Name = "checkBoxSecondDie";
-            this.checkBoxSecondDie.Size = new System.Drawing.Size(76, 19);
+            this.checkBoxSecondDie.Size = new System.Drawing.Size(72, 19);
             this.checkBoxSecondDie.TabIndex = 10;
-            this.checkBoxSecondDie.Text = " Два зара";
+            this.checkBoxSecondDie.Text = "Two dice";
             this.checkBoxSecondDie.UseVisualStyleBackColor = true;
             this.checkBoxSecondDie.CheckedChanged += new System.EventHandler(this.checkBoxSecondDie_CheckedChanged);
             // 
@@ -278,7 +277,7 @@
             this.labelWins.Name = "labelWins";
             this.labelWins.Size = new System.Drawing.Size(130, 20);
             this.labelWins.TabIndex = 12;
-            this.labelWins.Text = "Спечелени игри";
+            this.labelWins.Text = "Wins";
             this.labelWins.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelWinsUser
@@ -314,7 +313,7 @@
             this.labelUser.Name = "labelUser";
             this.labelUser.Size = new System.Drawing.Size(105, 28);
             this.labelUser.TabIndex = 15;
-            this.labelUser.Text = "Вие";
+            this.labelUser.Text = "You";
             this.labelUser.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelComp
@@ -326,7 +325,7 @@
             this.labelComp.Name = "labelComp";
             this.labelComp.Size = new System.Drawing.Size(103, 28);
             this.labelComp.TabIndex = 16;
-            this.labelComp.Text = " Компютър";
+            this.labelComp.Text = "Computer";
             this.labelComp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // splitContainerScore
@@ -388,8 +387,8 @@
             this.buttonRoll.Name = "buttonRoll";
             this.buttonRoll.Size = new System.Drawing.Size(130, 40);
             this.buttonRoll.TabIndex = 20;
-            this.buttonRoll.Text = "Хвърляне";
-            this.buttonRoll.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.buttonRoll.Text = "    Roll";
+            this.buttonRoll.UseMnemonic = false;
             this.buttonRoll.UseVisualStyleBackColor = true;
             this.buttonRoll.Visible = false;
             this.buttonRoll.Click += new System.EventHandler(this.buttonRoll_Click);
@@ -403,7 +402,7 @@
             this.labelRolling.Name = "labelRolling";
             this.labelRolling.Size = new System.Drawing.Size(177, 40);
             this.labelRolling.TabIndex = 21;
-            this.labelRolling.Text = " Компютърът е на ход";
+            this.labelRolling.Text = "Computer\'s turn";
             this.labelRolling.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.labelRolling.Visible = false;
             // 
@@ -436,7 +435,7 @@
             this.buttonResetWins.Name = "buttonResetWins";
             this.buttonResetWins.Size = new System.Drawing.Size(54, 22);
             this.buttonResetWins.TabIndex = 25;
-            this.buttonResetWins.Text = "Занули";
+            this.buttonResetWins.Text = "Reset";
             this.buttonResetWins.UseVisualStyleBackColor = true;
             this.buttonResetWins.Click += new System.EventHandler(this.buttonResetWins_Click);
             // 
@@ -477,7 +476,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(800, 480);
             this.Name = "FormDiceGame";
-            this.Text = "Хвърли зарчета";
+            this.Text = "Roll dice";
             this.groupBoxOponent.ResumeLayout(false);
             this.groupBoxOponent.PerformLayout();
             this.panelPlaygound.ResumeLayout(false);

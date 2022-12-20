@@ -24,7 +24,7 @@ namespace VSP_0463_imd_MyProject
 
             buttonCancel = new()
             {
-                Text = "Назад",
+                Text = "Back",
                 Size = new Size(66, 28),
                 Location = new Point(120, 152),
             };
@@ -66,7 +66,7 @@ namespace VSP_0463_imd_MyProject
             {
                 buttonCancel.Visible = true;
                 shouldCloseTheApp = true;
-                buttonОК.Text = "Изход";
+                buttonОК.Text = "Quit";
                 buttonОК.Location = new Point(40, 152);
             }
             else
@@ -80,13 +80,13 @@ namespace VSP_0463_imd_MyProject
 
                 if (buttonОК.InvokeRequired)
                     buttonОК.Invoke(new Action(() => {
-                        buttonОК.Text = "Добре";
+                        buttonОК.Text = "OK";
                         buttonОК.Location = new Point(80, 152);
                         }
                     ));
                 else
                 {
-                    buttonОК.Text = "Добре";
+                    buttonОК.Text = "OK";
                     buttonОК.Location = new Point(80, 152);
                 };
             }
@@ -96,7 +96,7 @@ namespace VSP_0463_imd_MyProject
             Button btnCance = (Button)sender;
             CancelButton = null;
             shouldCloseTheApp = false;
-            buttonОК.Text = "Добре";
+            buttonОК.Text = "OK";
             buttonОК.Location = new Point(80, 152);
             btnCance.Visible = false;
         }

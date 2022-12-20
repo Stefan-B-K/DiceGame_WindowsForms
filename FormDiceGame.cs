@@ -103,7 +103,7 @@ namespace VSP_0463_imd_MyProject
             set
             {
                 _player = value;
-                Utils.SetText(labelRolling, value == PlayerTurn.User ? "Вие сте на ход" : "Компютърът е на ход");
+                Utils.SetText(labelRolling, value == PlayerTurn.User ? "Your turn" : "Computer's turn");
                 if (value == PlayerTurn.Computer && Playing) RollDice();
             }
         }
@@ -114,7 +114,7 @@ namespace VSP_0463_imd_MyProject
             {
                 _gameType = value;
                 textBoxGoal.Text = value == Game.First ? "25" : "10";
-                labelGoalUnit.Text = value == Game.First ? "точки" : "рунд" + (textBoxGoal.Text == "1" ? "" : "а");
+                labelGoalUnit.Text = value == Game.First ? "points" : "round" + (textBoxGoal.Text == "1" ? "" : "s");
                 ChangeInstructionLabel();
                 SetGoalValueLimits();
                 checkGoalValue(textBoxGoal);
@@ -187,7 +187,7 @@ namespace VSP_0463_imd_MyProject
         {
             if (Playing)
             {
-                endGameMsgBox.setMessage("Служебна победа за компютъра!\nСигурни ли сте?", 1, true);
+                endGameMsgBox.setMessage("Forfeit!\nAre you sure?", 1, true);
                 endGameMsgBox.ShowDialog();
             } 
             else { Application.Exit(); }
@@ -205,10 +205,10 @@ namespace VSP_0463_imd_MyProject
 
             switch (cbx.SelectedItem.ToString())
             {
-                case "Стандартен": ColorTheme = Color.Black; break;
-                case "Син": ColorTheme = Color.Blue; break;
-                case "Зелен": ColorTheme = Color.Green; break;
-                case "Червен": ColorTheme = Color.Red; break;
+                case "Standard": ColorTheme = Color.Black; break;
+                case "Blue": ColorTheme = Color.Blue; break;
+                case "Green": ColorTheme = Color.Green; break;
+                case "Red": ColorTheme = Color.Red; break;
                 default: ColorTheme = Color.Black; break;
             }
         }
@@ -216,8 +216,8 @@ namespace VSP_0463_imd_MyProject
         private void comboBoxGameType_SelectedIndexChanged(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox cbx = (System.Windows.Forms.ComboBox)sender;
-            if (cbx.SelectedItem.ToString() == "Който първи") GameType = Game.First;
-            if (cbx.SelectedItem.ToString() == "Който повече") GameType = Game.Max;
+            if (cbx.SelectedItem.ToString() == "First") GameType = Game.First;
+            if (cbx.SelectedItem.ToString() == "More points") GameType = Game.Max;
         }
 
         private void buttonRoll_Click(object sender, EventArgs e)
@@ -241,14 +241,14 @@ namespace VSP_0463_imd_MyProject
         }
         private void ConfigInstructionLabels()
         {
-            labelInstruction1.Text = "Игра 'Кой първи':";
-            labelInstruction2.Text = $"Печели този, който първи събере { textBoxGoal.Text } точки.";
+            labelInstruction1.Text = "Game 'First':";
+            labelInstruction2.Text = $"The first to collect { textBoxGoal.Text } points wins.";
             labelInstruction1.AutoSize = false;
             labelInstruction2.AutoSize = false;
-            labelInstruction1.Size = new(120, 32);
+            labelInstruction1.Size = new(130, 32);
             labelInstruction2.Size = new(260, 32);
             labelInstruction1.Location = new Point(170, 380);
-            labelInstruction2.Location = new Point(286, 380);
+            labelInstruction2.Location = new Point(290, 380);
             labelInstruction1.Font = new Font(labelInstruction1.Font, FontStyle.Bold);
             this.Controls.Add(labelInstruction1);
             this.Controls.Add(labelInstruction2);
@@ -258,13 +258,13 @@ namespace VSP_0463_imd_MyProject
 
         private void ChangeInstructionLabel()
         {
-                labelInstruction1.Text = GameType == Game.First ? 
-                    "Игра 'Кой първи':" : 
-                    "Игра 'Кой повече':";
+                labelInstruction1.Text = GameType == Game.First ?
+                    "Game 'First':" :
+                    "Game 'More points':";
 
                 labelInstruction2.Text = GameType == Game.First ? 
-                    $"Печели този, който първи събере {textBoxGoal.Text} точки." :
-                    $"Печели този, който има повече точки след {textBoxGoal.Text} рунд{(textBoxGoal.Text == "1" ? "" : "а")}.";
+                    $"The first one to collect {textBoxGoal.Text} wins." :
+                    $"The one with more points after {textBoxGoal.Text} round{(textBoxGoal.Text == "1" ? "" : "s")} wins.";
         }
 
         private void ConfigPlaying(bool value)
@@ -287,7 +287,7 @@ namespace VSP_0463_imd_MyProject
 
             Color backColorInstructions = Playing ? SystemColors.Window : Utils.BackColor(ColorTheme);
             Utils.SetLocation(labelInstruction1, new Point(170, Playing ? 324 : 390));
-            Utils.SetLocation(labelInstruction2, new Point(286, Playing ? 324 : 390));
+            Utils.SetLocation(labelInstruction2, new Point(290, Playing ? 324 : 390));
             Utils.SetBackColor(labelInstruction1, backColorInstructions);
             Utils.SetBackColor(labelInstruction2, backColorInstructions);
         }
@@ -301,21 +301,21 @@ namespace VSP_0463_imd_MyProject
 
             if (userScore > compScore)
             {
-                endGameMessage = "Спечелихте играта!";
+                endGameMessage = "You win!";
                 imageIndex = 0;
                 Properties.Settings.Default.userWins += 1;
                 Properties.Settings.Default.Save();
             }
             else if (userScore < compScore)
             {
-                endGameMessage = "Загубихте играта!";
+                endGameMessage = "You lose!";
                 imageIndex = 1;
                 Properties.Settings.Default.compWins += 1;
                 Properties.Settings.Default.Save();
             }
             else
             {
-                endGameMessage = "Равенство!\nПо точка за всеки.";
+                endGameMessage = "Tie!\nOne point for each.";
                 imageIndex = 2;
                 Properties.Settings.Default.userWins += 1;
                 Properties.Settings.Default.compWins += 1;
@@ -388,7 +388,7 @@ namespace VSP_0463_imd_MyProject
                 tb.Text = "";
                 tb.BackColor = Utils.LightRed;
                 tb.Tag = false;
-                labelGoalError.Text = $"От 0 { minGoalValue } до { maxGoalValue }";
+                labelGoalError.Text = $"From 0 { minGoalValue } to { maxGoalValue }";
                 labelGoalError.Visible= true;
             }
             else
@@ -436,7 +436,7 @@ namespace VSP_0463_imd_MyProject
                 {
                     tb.Tag = false;
                     tb.BackColor = Utils.LightRed;
-                    labelGoalError.Text = $"От { minGoalValue } до { maxGoalValue }";
+                    labelGoalError.Text = $"From { minGoalValue } to { maxGoalValue }";
                     labelGoalError.Visible = true;
                 }
                 else
@@ -450,7 +450,7 @@ namespace VSP_0463_imd_MyProject
             {
                 tb.Tag = false;
                 tb.BackColor = Utils.LightRed;
-                labelGoalError.Text = $"От { minGoalValue } до { maxGoalValue }";
+                labelGoalError.Text = $"From { minGoalValue } to { maxGoalValue }";
                 labelGoalError.Visible = true;
             }
             ValidateOK();
@@ -466,7 +466,7 @@ namespace VSP_0463_imd_MyProject
                 tb.Text = "";
                 tb.BackColor = Utils.LightRed;
                 tb.Tag = false;
-                labelGoalError.Text = $"От { minGoalValue } до { maxGoalValue }";
+                labelGoalError.Text = $"From { minGoalValue } to { maxGoalValue }";
                 labelGoalError.Visible = true;
             }
             else
@@ -477,7 +477,7 @@ namespace VSP_0463_imd_MyProject
             }
             ValidateOK();
             ChangeInstructionLabel();
-            if (GameType == Game.Max) labelGoalUnit.Text = "рунд" + (textBoxGoal.Text == "1" ? "" : "а");
+            if (GameType == Game.Max) labelGoalUnit.Text = "round" + (textBoxGoal.Text == "1" ? "" : "s");
         }
 
         private void ValidateOK()

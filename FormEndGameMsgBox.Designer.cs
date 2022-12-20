@@ -42,7 +42,7 @@
             this.buttonОК.Name = "buttonОК";
             this.buttonОК.Size = new System.Drawing.Size(66, 28);
             this.buttonОК.TabIndex = 0;
-            this.buttonОК.Text = "Добре";
+            this.buttonОК.Text = "OK";
             this.buttonОК.UseVisualStyleBackColor = true;
             this.buttonОК.Click += new System.EventHandler(this.buttonОК_Click);
             // 
@@ -53,7 +53,7 @@
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(198, 63);
             this.labelMessage.TabIndex = 1;
-            this.labelMessage.Text = "Равенство! По точка за всеки.";
+            this.labelMessage.Text = "Tie! One point for each.";
             this.labelMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelImage
@@ -88,7 +88,7 @@
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(240, 230);
             this.Name = "FormEndGameMsgBox";
-            this.Text = "Край на играта";
+            this.Text = "Game over";
             this.ResumeLayout(false);
 
         }
