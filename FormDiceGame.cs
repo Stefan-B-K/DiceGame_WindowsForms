@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Timers;
+using System.Windows.Forms;
 using VSP_0463_imd_MyProject.Properties;
 using Application = System.Windows.Forms.Application;
 
@@ -24,6 +25,9 @@ namespace VSP_0463_imd_MyProject
         private int maxGoalValue = GameScore.MaxPoints1Dice;
         private int minGoalValue = GameScore.MinPoints;
 
+        FormEndGameMsgBox endGameMsgBox;
+
+
         private int DiceCount
         {
             get { return _diceCount; }
@@ -32,7 +36,7 @@ namespace VSP_0463_imd_MyProject
                 _diceCount = value;
                 SetDiceLocation(value);
                 SetDiceFace(ColorTheme, 6, 6);
-                setGoalValueLimits();
+                SetGoalValueLimits();
                 checkGoalValue(textBoxGoal);
             }
         }
@@ -69,7 +73,8 @@ namespace VSP_0463_imd_MyProject
             set
             {
                 _playing = value;
-                configPlaying(value);
+                ConfigPlaying(value);
+                if (value == false) ShowMessageGameEnd();
             }
         }
         private bool Rolling
@@ -111,7 +116,7 @@ namespace VSP_0463_imd_MyProject
                 textBoxGoal.Text = value == Game.First ? "25" : "10";
                 labelGoalUnit.Text = value == Game.First ? "точки" : "рунд" + (textBoxGoal.Text == "1" ? "" : "а");
                 ChangeInstructionLabel();
-                setGoalValueLimits();
+                SetGoalValueLimits();
                 checkGoalValue(textBoxGoal);
             }
         }
@@ -150,6 +155,7 @@ namespace VSP_0463_imd_MyProject
         public FormDiceGame()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             comboBoxColorTheme.SelectedIndex = 0;
             comboBoxGameType.SelectedIndex = 0;
             SetDiceLocation(DiceCount);
@@ -161,6 +167,8 @@ namespace VSP_0463_imd_MyProject
 
             this.textBoxGoal.Validating += new CancelEventHandler(textBoxGoalEmpty!);
             this.textBoxGoal.Validating += new CancelEventHandler(textBoxGoalValue!);
+
+            endGameMsgBox = FormEndGameMsgBox.GetInstance();
         }   //  =========================      init     =========================
 
 
@@ -173,21 +181,14 @@ namespace VSP_0463_imd_MyProject
             labelTotalUser.Text = "";
             labelTotalComp.Text = "";
             Playing = true; 
-
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
         {
             if (Playing)
             {
-                Properties.Settings.Default.compWins += 1;
-                Properties.Settings.Default.Save();
-                if (MessageBox.Show("Ще бъде записана служебна победа за компютъра!\nСигурни ли сте?",
-                    "Изход по време на игра",
-                    MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    Application.Exit();
-                };
+                endGameMsgBox.setMessage("Служебна победа за компютъра!\nСигурни ли сте?", 1, true);
+                endGameMsgBox.ShowDialog();
             } 
             else { Application.Exit(); }
         }
@@ -231,7 +232,7 @@ namespace VSP_0463_imd_MyProject
 
         //  ==================  config UI ==================
 
-        private void setGoalValueLimits()
+        private void SetGoalValueLimits()
         {
             maxGoalValue = GameType == Game.Max ?
               GameScore.MaxRounds :
@@ -266,7 +267,7 @@ namespace VSP_0463_imd_MyProject
                     $"Печели този, който има повече точки след {textBoxGoal.Text} рунд{(textBoxGoal.Text == "1" ? "" : "а")}.";
         }
 
-        private void configPlaying(bool value)
+        private void ConfigPlaying(bool value)
         {
             Utils.SetEnabled(buttonNewGame, !value);
 
@@ -277,6 +278,8 @@ namespace VSP_0463_imd_MyProject
             Utils.SetVisible(labelGoal, !value);
             Utils.SetVisible(textBoxGoal, !value);
             Utils.SetVisible(labelGoalUnit, !value);
+            Utils.SetVisible(buttonResetWins, !value);
+            
             Utils.SetVisible(buttonRoll, value);
             Utils.SetVisible(labelRolling, value);
 
@@ -287,12 +290,42 @@ namespace VSP_0463_imd_MyProject
             Utils.SetLocation(labelInstruction2, new Point(286, Playing ? 324 : 390));
             Utils.SetBackColor(labelInstruction1, backColorInstructions);
             Utils.SetBackColor(labelInstruction2, backColorInstructions);
+        }
 
+        private void ShowMessageGameEnd()
+        {
+            int userScore = GameScore.TotalScore(PlayerTurn.User);
+            int compScore = GameScore.TotalScore(PlayerTurn.Computer);
             string endGameMessage;
-            if (GameType == Game.Max)
+            int imageIndex;
+
+            if (userScore > compScore)
             {
-               
+                endGameMessage = "Спечелихте играта!";
+                imageIndex = 0;
+                Properties.Settings.Default.userWins += 1;
+                Properties.Settings.Default.Save();
             }
+            else if (userScore < compScore)
+            {
+                endGameMessage = "Загубихте играта!";
+                imageIndex = 1;
+                Properties.Settings.Default.compWins += 1;
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                endGameMessage = "Равенство!\nПо точка за всеки.";
+                imageIndex = 2;
+                Properties.Settings.Default.userWins += 1;
+                Properties.Settings.Default.compWins += 1;
+                Properties.Settings.Default.Save();
+            }
+
+            endGameMsgBox.setMessage(endGameMessage, imageIndex);
+            if (!endGameMsgBox.Visible) endGameMsgBox.ShowDialog();
+            Utils.SetText(labelWinsUser, Properties.Settings.Default.userWins.ToString());
+            Utils.SetText(labelWinsComp, Properties.Settings.Default.compWins.ToString());
         }
 
         private void SetDiceFace(Color color, int value1, int value2)
@@ -550,5 +583,13 @@ namespace VSP_0463_imd_MyProject
             }
         }
 
+        private void buttonResetWins_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.compWins = 0;
+            Properties.Settings.Default.userWins = 0;
+            Properties.Settings.Default.Save();
+            labelWinsUser.Text = "0";
+            labelWinsComp.Text = "0";
+        }
     }
 }

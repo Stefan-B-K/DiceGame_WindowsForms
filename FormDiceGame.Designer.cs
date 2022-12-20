@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDiceGame));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.imageListButtons = new System.Windows.Forms.ImageList(this.components);
             this.buttonNewGame = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
             this.comboBoxColorTheme = new System.Windows.Forms.ComboBox();
@@ -60,6 +60,7 @@
             this.labelRolling = new System.Windows.Forms.Label();
             this.horizontalSeparator = new System.Windows.Forms.Label();
             this.labelGoalError = new System.Windows.Forms.Label();
+            this.buttonResetWins = new System.Windows.Forms.Button();
             this.groupBoxOponent.SuspendLayout();
             this.panelPlaygound.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDice1)).BeginInit();
@@ -68,21 +69,21 @@
             this.splitContainerScore.SuspendLayout();
             this.SuspendLayout();
             // 
-            // imageList1
+            // imageListButtons
             // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Screenshot 2022-12-14 at 0.00.51.png");
-            this.imageList1.Images.SetKeyName(1, "22a.ico");
-            this.imageList1.Images.SetKeyName(2, "Refresh_32x32.png");
+            this.imageListButtons.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageListButtons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListButtons.ImageStream")));
+            this.imageListButtons.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListButtons.Images.SetKeyName(0, "Screenshot 2022-12-14 at 0.00.51.png");
+            this.imageListButtons.Images.SetKeyName(1, "22a.ico");
+            this.imageListButtons.Images.SetKeyName(2, "Refresh_32x32.png");
             // 
             // buttonNewGame
             // 
             this.buttonNewGame.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonNewGame.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonNewGame.ImageIndex = 0;
-            this.buttonNewGame.ImageList = this.imageList1;
+            this.buttonNewGame.ImageList = this.imageListButtons;
             this.buttonNewGame.Location = new System.Drawing.Point(12, 12);
             this.buttonNewGame.Name = "buttonNewGame";
             this.buttonNewGame.Size = new System.Drawing.Size(130, 40);
@@ -97,7 +98,7 @@
             this.buttonExit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonExit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonExit.ImageIndex = 1;
-            this.buttonExit.ImageList = this.imageList1;
+            this.buttonExit.ImageList = this.imageListButtons;
             this.buttonExit.Location = new System.Drawing.Point(12, 70);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(130, 40);
@@ -273,9 +274,9 @@
             this.labelWins.BackColor = System.Drawing.SystemColors.Control;
             this.labelWins.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.labelWins.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.labelWins.Location = new System.Drawing.Point(555, 382);
+            this.labelWins.Location = new System.Drawing.Point(598, 380);
             this.labelWins.Name = "labelWins";
-            this.labelWins.Size = new System.Drawing.Size(229, 20);
+            this.labelWins.Size = new System.Drawing.Size(130, 20);
             this.labelWins.TabIndex = 12;
             this.labelWins.Text = "Спечелени игри";
             this.labelWins.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -382,7 +383,7 @@
             this.buttonRoll.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.buttonRoll.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.buttonRoll.ImageIndex = 2;
-            this.buttonRoll.ImageList = this.imageList1;
+            this.buttonRoll.ImageList = this.imageListButtons;
             this.buttonRoll.Location = new System.Drawing.Point(199, 382);
             this.buttonRoll.Name = "buttonRoll";
             this.buttonRoll.Size = new System.Drawing.Size(130, 40);
@@ -427,11 +428,25 @@
             this.labelGoalError.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.labelGoalError.Visible = false;
             // 
+            // buttonResetWins
+            // 
+            this.buttonResetWins.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.buttonResetWins.ForeColor = System.Drawing.Color.Maroon;
+            this.buttonResetWins.Location = new System.Drawing.Point(728, 380);
+            this.buttonResetWins.Name = "buttonResetWins";
+            this.buttonResetWins.Size = new System.Drawing.Size(54, 22);
+            this.buttonResetWins.TabIndex = 25;
+            this.buttonResetWins.Text = "Занули";
+            this.buttonResetWins.UseVisualStyleBackColor = true;
+            this.buttonResetWins.Click += new System.EventHandler(this.buttonResetWins_Click);
+            // 
             // FormDiceGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 441);
+            this.ControlBox = false;
+            this.Controls.Add(this.buttonResetWins);
             this.Controls.Add(this.labelGoalError);
             this.Controls.Add(this.horizontalSeparator);
             this.Controls.Add(this.verticalSeparator);
@@ -457,10 +472,12 @@
             this.Controls.Add(this.comboBoxColorTheme);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonNewGame);
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(800, 480);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(800, 480);
             this.Name = "FormDiceGame";
-            this.Text = "Form1";
+            this.Text = "Хвърли зарчета";
             this.groupBoxOponent.ResumeLayout(false);
             this.groupBoxOponent.PerformLayout();
             this.panelPlaygound.ResumeLayout(false);
@@ -475,7 +492,7 @@
 
         #endregion
 
-        private ImageList imageList1;
+        private ImageList imageListButtons;
         private Button buttonNewGame;
         private Button buttonExit;
         private ComboBox comboBoxColorTheme;
@@ -505,5 +522,6 @@
         private Label verticalSeparator;
         private Label horizontalSeparator;
         private Label labelGoalError;
+        private Button buttonResetWins;
     }
 }
